@@ -1,13 +1,15 @@
+import bi = require('biginteger');
+
 export = Coord;
 class Coord {
     static of(x: string, y: string) {
-        return new Coord(new BigInteger(x), new BigInteger(y));
+        return new Coord(new bi.BigInteger(x), new bi.BigInteger(y));
     }
 
     /** @private */
     constructor(
-        private x: BigInteger,
-        private y: BigInteger) {
+        private x: bi.BigInteger,
+        private y: bi.BigInteger) {
     }
 
     subtract(target: Coord) {

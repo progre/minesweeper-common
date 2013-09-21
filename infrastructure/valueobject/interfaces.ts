@@ -1,7 +1,6 @@
-export interface IMineWorldDTO {
-    players: {
-        [id: number]: IPlayerDTO
-    }
+export interface IFullDataDTO {
+    yourId: number;
+    players: { [id: number]: IPlayerDTO }
 }
 
 export interface IPlayerDTO {

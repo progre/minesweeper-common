@@ -3,7 +3,6 @@ import bi = require('biginteger');
 export = Coord;
 class Coord {
     static of(x: string, y: string) {
-        console.log(bi);
         return new Coord(new bi.BigInteger(x), new bi.BigInteger(y));
     }
 

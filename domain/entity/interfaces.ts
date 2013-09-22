@@ -1,7 +1,8 @@
 import Coord = require('./../valueobject/coord');
 
 export interface IMineWorld {
-    players: { [id: number]: IPlayer }
+    yourId: string;
+    players: { [id: string]: IPlayer }
 }
 
 export interface IPlayer {

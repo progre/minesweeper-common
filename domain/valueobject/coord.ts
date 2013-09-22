@@ -10,29 +10,29 @@ class Coord {
         return Coord.of(x.toString(10), y.toString(10));
     }
 
-    static unpack(obj: string[]) {
-        return new Coord(bi.BigInteger.parse(obj[0], 36), bi.BigInteger.parse(obj[1], 36));
-    }
-
     /** @private */
     constructor(
-        private _x: bi.BigInteger,
-        private _y: bi.BigInteger) {
+        public x: bi.BigInteger,
+        public y: bi.BigInteger) {
     }
 
     subtract(target: Coord) {
-        return new Coord(this._x.subtract(target.x), this._y.subtract(target.y));
+        return new Coord(this.x.subtract(target.x), this.y.subtract(target.y));
     }
 
-    get x(): number {
-        return this._x.toJSValue();
+    get xJSValue(): number {
+        return this.x.toJSValue();
     }
 
-    get y(): number {
-        return this._y.toJSValue();
+    get yJSValue(): number {
+        return this.y.toJSValue();
     }
 
-    pack() {
-        return [this._x.toString(36), this._y.toString(36)];
+    get xString() {
+        return this.x.toString();
+    }
+
+    get yString() {
+        return this.y.toString();
     }
 }

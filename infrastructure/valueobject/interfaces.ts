@@ -12,3 +12,8 @@ export interface ICoordDTO {
     x: string;
     y: string;
 }
+
+export interface IMoveDTO {
+    id: string;
+    coord: ICoordDTO;
+}

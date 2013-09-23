@@ -1,6 +1,7 @@
 import iv = require('./../valueobject/interfaces');
 import de = require('./../../domain/entity/interfaces');
 import Coord = require('./../../domain/valueobject/coord');
+import Enumerable = require('./../../../lib/linq');
 
 export function toMineWorld(dto: iv.IFullDataDTO): de.IMineWorld {
     return {

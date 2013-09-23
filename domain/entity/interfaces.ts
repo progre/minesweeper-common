@@ -1,12 +1,12 @@
 import Coord = require('./../valueobject/coord');
 
 export interface IMineWorld {
-    yourId: string;
+    yourId: number;
     players: IHash<IPlayer>;
 }
 
 export interface IHash<T> {
-    [key: string]: T;
+    [key: number]: T;
 }
 
 export interface IPlayer {

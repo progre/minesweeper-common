@@ -1,6 +1,6 @@
 export interface IFullDataDTO {
-    yourId: string;
-    players: { [id: string]: IPlayerDTO }
+    yourId: number;
+    players: { [id: number]: IPlayerDTO }
 }
 
 export interface IPlayerDTO {
@@ -14,6 +14,6 @@ export interface ICoordDTO {
 }
 
 export interface IMoveDTO {
-    id: string;
+    id: number;
     coord: ICoordDTO;
 }

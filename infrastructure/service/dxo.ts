@@ -6,8 +6,8 @@ import Enumerable = require('./../../../lib/linq');
 export function toMineWorld(dto: iv.IFullDataDTO): de.IMineWorld {
     return {
         yourId: dto.yourId,
-        players: Enumerable.from(dto.players)
-            .select((x: KVP<iv.IPlayerDTO>) => ({ key: x.key, value: toPlayer(x.value) }))
+        players: Enumerable.from(dto.activePlayers)
+            .select(x => ({ key: x.key, value: toPlayer(x.value) }))
             .toObject(x => x.key, x => x.value)
     };
 }
@@ -26,9 +26,4 @@ export function fromCoord(model: Coord) {
         x: model.xString,
         y: model.yString
     }
-}
-
-interface KVP<T> {
-    key: string;
-    value: T;
 }

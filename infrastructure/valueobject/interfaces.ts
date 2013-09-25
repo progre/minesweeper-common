@@ -1,6 +1,6 @@
 export interface IFullDataDTO {
     yourId: number;
-    players: { [id: number]: IPlayerDTO }
+    activePlayers: { [id: number]: IPlayerDTO }
 }
 
 export interface IPlayerDTO {

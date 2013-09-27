@@ -16,6 +16,10 @@ class Coord {
         public y: bi.BigInteger) {
     }
 
+    add(target: Coord) {
+        return new Coord(this.x.add(target.x), this.y.add(target.y));
+    }
+
     subtract(target: Coord) {
         return new Coord(this.x.subtract(target.x), this.y.subtract(target.y));
     }

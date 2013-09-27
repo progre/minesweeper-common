@@ -12,7 +12,7 @@ export function toMineWorld(dto: iv.IFullDataDTO): de.IMineWorld {
     };
 }
 
-function toPlayer(dto: iv.IPlayerDTO): de.IPlayer {
+export function toPlayer(dto: iv.IPlayerDTO): de.IPlayer {
     return {
         coord: toCoord(dto.coord),
         image: dto.image

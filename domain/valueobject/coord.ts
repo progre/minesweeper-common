@@ -1,9 +1,9 @@
-import bi = require('biginteger');
+import BigInteger = require('jsbn');
 
 export = Coord;
 class Coord {
     static of(x: string, y: string) {
-        return new Coord(new bi.BigInteger(x), new bi.BigInteger(y));
+        return new Coord(new BigInteger(x), new BigInteger(y));
     }
 
     static fromNumber(x: number, y: number) {
@@ -12,8 +12,8 @@ class Coord {
 
     /** @private */
     constructor(
-        public x: bi.BigInteger,
-        public y: bi.BigInteger) {
+        public x: BigInteger,
+        public y: BigInteger) {
     }
 
     add(target: Coord) {
@@ -24,12 +24,12 @@ class Coord {
         return new Coord(this.x.subtract(target.x), this.y.subtract(target.y));
     }
 
-    get xJSValue(): number {
-        return this.x.toJSValue();
+    get xIntValue(): number {
+        return this.x.intValue();
     }
 
-    get yJSValue(): number {
-        return this.y.toJSValue();
+    get yIntValue(): number {
+        return this.y.intValue();
     }
 
     get xString() {

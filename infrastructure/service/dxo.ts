@@ -1,4 +1,4 @@
-import Enumerable = require('./../../lib/linq');
+import Enumerable = require('./../../../lib/linq');
 import de = require('./../../domain/entity/interfaces');
 import Coord = require('./../../domain/valueobject/coord');
 import iv = require('./../valueobject/interfaces');

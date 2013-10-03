@@ -1,12 +1,14 @@
 export enum Landform {
-    None,
-    Bomb
+    NONE,
+    BOMB,
+    UNKNOWN
 }
 
 export enum Status {
-    Close,
-    Flag,
-    Open
+    CLOSE,
+    FLAG,
+    OPEN,
+    UNKNOWN
 }
 
 export class ViewPoint {

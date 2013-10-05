@@ -1,5 +1,6 @@
 import BigInteger = require('jsbn');
 import Coord = require('./../valueobject/coord');
+import ChunkNotFoundError = require('./chunknotfounderror');
 
 export = ChunkCache;
 class ChunkCache<T> {
@@ -23,7 +24,10 @@ class ChunkCache<T> {
     }
 
     getByXY(x: BigInteger, y: BigInteger) {
-        return this.cache.get(this.createKey(x, y));
+        var chunk = this.cache.get(this.createKey(x, y));
+        if (chunk == null)
+            throw new ChunkNotFoundError(new Coord(x, y));
+        return chunk;
     }
 
     putByCoord(coord: Coord, chunk: T[][]) {

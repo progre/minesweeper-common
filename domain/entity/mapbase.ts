@@ -1,17 +1,28 @@
 ﻿import BigInteger = require('jsbn');
+import ee2 = require('eventemitter2');
 import Enumerable = require('./../../../lib/linq');
 import Coord = require('./../valueobject/coord');
 import vp = require('./../valueobject/viewpoint');
 import ChunkCache = require('./chunkcache');
+import ChunkNotFoundError = require('./chunknotfounderror');
 
 export = MapBase;
-class MapBase {
+class MapBase extends ee2.EventEmitter2 {
     // 地雷（地形）Map 普通の爆弾、☢、Bakuhigashi等
     // 解放状況(close, flag, open)
-    private viewPointChunks = new ChunkCache<vp.ViewPoint>();
+    /** @protected */
+    viewPointChunks = new ChunkCache<vp.ViewPoint>();
 
     getViewPoint(coord: Coord) {
-        return this.viewPointChunks.getShred(coord);
+        try {
+            return this.viewPointChunks.getShred(coord);
+        } catch (error) {
+            if (error.name !== ChunkNotFoundError.name)
+                throw error;
+            var e: ChunkNotFoundError = error;
+            this.requestViewPointChunk(e.coord);
+            return vp.ViewPoint.Unknown;
+        }
     }
 
     getViewPointChunk(coord: Coord) {
@@ -23,5 +34,10 @@ class MapBase {
     }
 
     getNumber(coord: Coord) {
+    }
+
+    /** スーパークラスで実装必須 */
+    /** @protected */
+    requestViewPointChunk(coord: Coord): void {
     }
 }

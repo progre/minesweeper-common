@@ -12,6 +12,8 @@ export enum Status {
 }
 
 export class ViewPoint {
+    static Unknown = new ViewPoint(Landform.UNKNOWN, Status.UNKNOWN);
+
     constructor(
         public landform: Landform,
         public status: Status) {

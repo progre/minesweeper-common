@@ -5,14 +5,14 @@ export = ChunkCache;
 class ChunkCache<T> {
     private caches: Caches<T[][]>;
 
-    /** getFromRepository‚Í•K‚¸’l‚ğ•Ô‚·‚±‚Æ */
+    /** getFromRepositoryã¯å¿…ãšå€¤ã‚’è¿”ã™ã“ã¨ */
     constructor(
         private getFromRepository: (key: string) => T[][]) {
         this.caches = new Caches<T[][]>(getFromRepository);
     }
 
     // example: 0-15 -> 0,  16-31 -> 2 -1--16 -> -1
-    /** w’è‚Ìâ‘ÎÀ•W‚Ì—v‘f‚ğæ“¾‚·‚é */
+    /** æŒ‡å®šã®çµ¶å¯¾åº§æ¨™ã®è¦ç´ ã‚’å–å¾—ã™ã‚‹ */
     get(coord: Coord): T {
         var chunk = this.getChunkFromGlobal(coord);
         var y = coord.y.and(new BigInteger('15')).intValue();
@@ -54,11 +54,11 @@ class Caches<T> {
             top(this.caches, index);
             return this.caches[0].value;
         }
-        // ƒŠƒ|ƒWƒgƒŠ‚©‚çæ“¾
-        // ƒLƒƒƒbƒVƒ…ƒCƒ“
+        // ãƒªãƒã‚¸ãƒˆãƒªã‹ã‚‰å–å¾—
+        // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚¤ãƒ³
         this.caches.unshift({ key: key, value: this.getFromRepository(key) });
         if (this.caches.length > Caches.LIMIT) {
-            // ŒÃ‚¢‚à‚Ì‚©‚çíœ
+            // å¤ã„ã‚‚ã®ã‹ã‚‰å‰Šé™¤
             this.caches.length = Caches.LIMIT;
         }
         return this.caches[0].value;
@@ -70,7 +70,7 @@ interface KVP<T> {
     value: T;
 }
 
-/** ”z—ñ‚Ìw’è‚Ì—v‘f‚ğæ“ª‚É‚Á‚Ä‚­‚é */
+/** é…åˆ—ã®æŒ‡å®šã®è¦ç´ ã‚’å…ˆé ­ã«æŒã£ã¦ãã‚‹ */
 function top(array: any[], index: number) {
     var value = array[index];
     array.splice(index, 1);

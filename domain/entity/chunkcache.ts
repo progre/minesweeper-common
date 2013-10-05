@@ -3,29 +3,31 @@ import Coord = require('./../valueobject/coord');
 
 export = ChunkCache;
 class ChunkCache<T> {
-    private caches: Caches<T[][]>;
-
-    /** getFromRepositoryは必ず値を返すこと */
-    constructor(
-        private getFromRepository: (key: string) => T[][]) {
-        this.caches = new Caches<T[][]>(getFromRepository);
-    }
+    private cache = new Cache<T[][]>();
 
     // example: 0-15 -> 0,  16-31 -> 2 -1--16 -> -1
     /** 指定の絶対座標の要素を取得する */
-    get(coord: Coord): T {
-        var chunk = this.getChunkFromGlobal(coord);
+    getShred(coord: Coord): T {
+        var chunk = this.getByGlobal(coord);
         var y = coord.y.and(new BigInteger('15')).intValue();
         var x = coord.x.and(new BigInteger('15')).intValue();
         return chunk[y][x];
     }
 
-    getChunkFromGlobal(coord: Coord) {
-        return this.getChunk(coord.x.shiftRight(4), coord.y.shiftRight(4));
+    getByGlobal(coord: Coord) {
+        return this.getByXY(coord.x.shiftRight(4), coord.y.shiftRight(4));
     }
 
-    getChunk(x: BigInteger, y: BigInteger) {
-        return this.caches.get(this.createKey(x, y));
+    getByCoord(coord: Coord) {
+        return this.getByXY(coord.x, coord.y);
+    }
+
+    getByXY(x: BigInteger, y: BigInteger) {
+        return this.cache.get(this.createKey(x, y));
+    }
+
+    putByCoord(coord: Coord, chunk: T[][]) {
+        return this.cache.put(this.createKey(coord.x, coord.y), chunk);
     }
 
     private createKey(x: BigInteger, y: BigInteger) {
@@ -33,41 +35,49 @@ class ChunkCache<T> {
     }
 }
 
-class Caches<T> {
+class Cache<T> {
     static LIMIT = 100;
 
-    private caches: KVP<T>[] = [];
-
-    constructor(
-        private getFromRepository: (key: string) => T) {
-    }
+    private cache: KVP<T>[] = [];
 
     get(key: string) {
-        var index = -1;
-        for (var i = 0, len = this.caches.length; i < len; i++) {
-            if (this.caches[index].key !== key)
-                continue;
-            index = i;
-            break;
-        }
+        var index = findIndex(this.cache, key);
+        if (index < 0)
+            return null;
+        top(this.cache, index);
+        return this.cache[0].value;
+    }
+
+    put(key: string, value: T): T {
+        var index = findIndex(this.cache, key);
         if (index >= 0) {
-            top(this.caches, index);
-            return this.caches[0].value;
+            // 既に存在する場合
+            top(this.cache, index);
+            var old = this.cache[0].value;
+            this.cache[0].value = value;
+            return old;
         }
-        // リポジトリから取得
-        // キャッシュイン
-        this.caches.unshift({ key: key, value: this.getFromRepository(key) });
-        if (this.caches.length > Caches.LIMIT) {
+        this.cache.unshift({ key: key, value: value });
+        if (this.cache.length > Cache.LIMIT) {
             // 古いものから削除
-            this.caches.length = Caches.LIMIT;
+            this.cache.length = Cache.LIMIT;
         }
-        return this.caches[0].value;
+        return null;
     }
 }
 
 interface KVP<T> {
     key: string;
     value: T;
+}
+
+/** 指定のキーの要素のindexを返す */
+function findIndex(array: KVP<any>[], key: string) {
+    for (var i = 0, len = array.length; i < len; i++) {
+        if (array[i].key === key)
+            return i;
+    }
+    return -1;
 }
 
 /** 配列の指定の要素を先頭に持ってくる */

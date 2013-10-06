@@ -32,11 +32,26 @@ class Coord {
         return this.y.intValue();
     }
 
-    get xString() {
+    get xString(): string {
         return this.x.toString();
     }
 
-    get yString() {
+    get yString(): string {
         return this.y.toString();
+    }
+
+    equals(other: Coord): boolean {
+        return other.x != null && other.y != null
+            && this.x.equals(other.x) && this.y.equals(other.y);
+    }
+
+    toString() {
+        return '{x: ' + this.x.toString() + ', y: ' + this.y.toString() + '}';
+    }
+
+    distance(other: Coord): number {
+        var dX = this.x.subtract(other.x).intValue();
+        var dY = this.y.subtract(other.y).intValue();
+        return Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
     }
 }

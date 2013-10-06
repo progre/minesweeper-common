@@ -21,7 +21,7 @@ export function toPlayer(dto: iv.IPlayerDTO): de.IPlayer {
 
 export var toCoord = (dto: iv.ICoordDTO) => Coord.of(dto.x, dto.y);
 
-export function fromCoord(model: Coord) { 
+export function fromCoord(model: Coord): iv.ICoordDTO { 
     return {
         x: model.xString,
         y: model.yString

@@ -17,6 +17,7 @@ class MapBase extends ee2.EventEmitter2 {
         try {
             return this.viewPointChunks.getShred(coord);
         } catch (error) {
+            console.log(error);
             if (error.name !== ChunkNotFoundError.name)
                 throw error;
             var e: ChunkNotFoundError = error;
@@ -31,6 +32,10 @@ class MapBase extends ee2.EventEmitter2 {
 
     getViewPointChunkFromGlobal(coord: Coord) {
         return this.viewPointChunks.getByGlobal(coord);
+    }
+
+    putViewPointChunk(coord: Coord, chunk: vp.ViewPoint[][]) {
+        return this.viewPointChunks.putByCoord(coord, chunk);
     }
 
     getNumber(coord: Coord) {

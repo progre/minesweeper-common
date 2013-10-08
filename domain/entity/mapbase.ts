@@ -35,32 +35,16 @@ class MapBase extends ee2.EventEmitter2 {
                 throw error;
             var e: ChunkNotFoundError = error;
             this.requestViewPointChunk(e.coord);
-            return this.unknownPlace;
+            return null;
         }
     }
 
     getViewPointChunkFromGlobal(coord: Coord) {
-        try {
-            return this.viewPointChunks.getByGlobal(coord);
-        } catch (error) {
-            if (error.name !== ChunkNotFoundError.name)
-                throw error;
-            var e: ChunkNotFoundError = error;
-            this.requestViewPointChunk(e.coord);
-            return this.unknownPlace;
-        }
+        return this.viewPointChunks.getByGlobal(coord);
     }
 
     putViewPointChunk(coord: Coord, chunk: vp.ViewPoint[][]) {
-        try {
-            return this.viewPointChunks.putByCoord(coord, chunk);
-        } catch (error) {
-            if (error.name !== ChunkNotFoundError.name)
-                throw error;
-            var e: ChunkNotFoundError = error;
-            this.requestViewPointChunk(e.coord);
-            return this.unknownPlace;
-        }
+        return this.viewPointChunks.putByCoord(coord, chunk);
     }
 
     getNumber(coord: Coord) {

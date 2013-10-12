@@ -50,8 +50,10 @@ class Coord {
     }
 
     distance(other: Coord): number {
-        var dX = this.x.subtract(other.x).intValue();
-        var dY = this.y.subtract(other.y).intValue();
-        return Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
+        var dX = this.x.subtract(other.x);
+        var dY = this.y.subtract(other.y);
+        if (dX.bitLength() >= 32 || dY.bitLength() >= 32)
+            return Number.NaN;
+        return Math.sqrt(Math.pow(dX.intValue(), 2) + Math.pow(dY.intValue(), 2));
     }
 }

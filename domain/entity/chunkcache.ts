@@ -9,16 +9,13 @@ class ChunkCache<T> {
     // example: 0-15 -> 0,  16-31 -> 2 -1--16 -> -1
     /** 指定の絶対座標の要素を取得する */
     getShred(coord: Coord): T {
-        //console.log('getShred: ' + coord.toString())
         var chunk = this.getByGlobal(coord);
         var y = coord.y.and(new BigInteger('15')).intValue();
         var x = coord.x.and(new BigInteger('15')).intValue();
-        //console.log('getShred: ' + x + ', ' + y)
         return chunk[y][x];
     }
 
     getByGlobal(coord: Coord) {
-        //console.log('getByGlobal: ' + coord.x.shiftRight(4) + ', ' + coord.y.shiftRight(4))
         return this.getByXY(coord.x.shiftRight(4), coord.y.shiftRight(4));
     }
 
@@ -31,6 +28,15 @@ class ChunkCache<T> {
         if (chunk == null)
             throw new ChunkNotFoundError(new Coord(x, y));
         return chunk;
+    }
+
+    putShred(coord: Coord, item: T) {
+        var chunk = this.getByGlobal(coord);
+        var y = coord.y.and(new BigInteger('15')).intValue();
+        var x = coord.x.and(new BigInteger('15')).intValue();
+        var old = chunk[y][x];
+        chunk[y][x] = item;
+        return old;
     }
 
     putByCoord(coord: Coord, chunk: T[][]) {

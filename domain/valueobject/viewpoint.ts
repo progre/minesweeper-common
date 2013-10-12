@@ -19,3 +19,10 @@ export class ViewPoint {
         public status: Status) {
     }
 }
+
+export class ClientViewPoint {
+    constructor(
+        public status: Status,
+        public mines: number) {
+    }
+}

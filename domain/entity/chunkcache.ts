@@ -30,6 +30,15 @@ class ChunkCache<T> {
         return chunk;
     }
 
+    putShred(coord: Coord, item: T) {
+        var chunk = this.getByGlobal(coord);
+        var y = coord.y.and(new BigInteger('15')).intValue();
+        var x = coord.x.and(new BigInteger('15')).intValue();
+        var old = chunk[y][x];
+        chunk[y][x] = item;
+        return old;
+    }
+
     putByCoord(coord: Coord, chunk: T[][]) {
         return this.cache.put(this.createKey(coord.x, coord.y), chunk);
     }

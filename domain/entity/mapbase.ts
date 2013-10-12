@@ -43,8 +43,16 @@ class MapBase extends ee2.EventEmitter2 {
         return this.viewPointChunks.getByGlobal(coord);
     }
 
+    putViewPoint(coord: Coord, viewPoint: vp.ViewPoint) {
+        var updated = this.viewPointChunks.putShred(coord, viewPoint);
+        super.emit('view_point_updated', viewPoint);
+        return updated;
+    }
+
     putViewPointChunk(coord: Coord, chunk: vp.ViewPoint[][]) {
-        return this.viewPointChunks.putByCoord(coord, chunk);
+        var updated = this.viewPointChunks.putByCoord(coord, chunk);
+        super.emit('chunk_updated', coord);
+        return updated;
     }
 
     getNumber(coord: Coord) {

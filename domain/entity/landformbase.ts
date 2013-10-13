@@ -1,13 +1,10 @@
-﻿var log4js = require('log4js');
-import BigInteger = require('jsbn');
+﻿import BigInteger = require('jsbn');
 import ee2 = require('eventemitter2');
 import enums = require('./../valueobject/enums');
 import Coord = require('./../valueobject/coord');
 import ChunkCache = require('./chunkcache');
 import ChunkNotFoundError = require('./chunknotfounderror');
 import Chunk = require('./chunk');
-
-var logger = log4js.getLogger();
 
 export = LandformBase;
 class LandformBase extends ee2.EventEmitter2 {

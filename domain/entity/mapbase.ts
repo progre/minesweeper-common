@@ -5,6 +5,7 @@ import Coord = require('./../valueobject/coord');
 import vp = require('./../valueobject/viewpoint');
 import ChunkCache = require('./chunkcache');
 import ChunkNotFoundError = require('./chunknotfounderror');
+import Chunk = require('./chunk');
 
 export = MapBase;
 class MapBase extends ee2.EventEmitter2 {
@@ -49,7 +50,7 @@ class MapBase extends ee2.EventEmitter2 {
         return updated;
     }
 
-    putViewPointChunk(coord: Coord, chunk: vp.ViewPoint[][]) {
+    putViewPointChunk(coord: Coord, chunk: Chunk<vp.ViewPoint>) {
         var updated = this.viewPointChunks.putByCoord(coord, chunk);
         super.emit('chunk_updated', coord);
         return updated;

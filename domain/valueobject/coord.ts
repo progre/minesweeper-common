@@ -56,4 +56,15 @@ class Coord {
             return Number.NaN;
         return Math.sqrt(Math.pow(dX.intValue(), 2) + Math.pow(dY.intValue(), 2));
     }
+
+    getArounds() {
+        return [new Coord(this.x.subtract(BigInteger.ONE), this.y.subtract(BigInteger.ONE)),
+            new Coord(this.x, this.y.subtract(BigInteger.ONE)),
+            new Coord(this.x.add(BigInteger.ONE), this.y.subtract(BigInteger.ONE)),
+            new Coord(this.x.subtract(BigInteger.ONE), this.y),
+            new Coord(this.x.add(BigInteger.ONE), this.y),
+            new Coord(this.x.subtract(BigInteger.ONE), this.y.add(BigInteger.ONE)),
+            new Coord(this.x, this.y.add(BigInteger.ONE)),
+            new Coord(this.x.add(BigInteger.ONE), this.y.add(BigInteger.ONE))];
+    }
 }

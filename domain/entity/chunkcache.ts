@@ -1,18 +1,16 @@
 import BigInteger = require('jsbn');
 import Coord = require('./../valueobject/coord');
 import ChunkNotFoundError = require('./chunknotfounderror');
+import Chunk = require('./chunk');
 
 export = ChunkCache;
 class ChunkCache<T> {
-    private cache = new Cache<T[][]>();
+    private cache = new Cache<Chunk<T>>();
 
     // example: 0-15 -> 0,  16-31 -> 2 -1--16 -> -1
     /** 指定の絶対座標の要素を取得する */
     getShred(coord: Coord): T {
-        var chunk = this.getByGlobal(coord);
-        var y = coord.y.and(new BigInteger('15')).intValue();
-        var x = coord.x.and(new BigInteger('15')).intValue();
-        return chunk[y][x];
+        return this.getByGlobal(coord).getByCoord(coord);
     }
 
     getByGlobal(coord: Coord) {
@@ -31,15 +29,10 @@ class ChunkCache<T> {
     }
 
     putShred(coord: Coord, item: T) {
-        var chunk = this.getByGlobal(coord);
-        var y = coord.y.and(new BigInteger('15')).intValue();
-        var x = coord.x.and(new BigInteger('15')).intValue();
-        var old = chunk[y][x];
-        chunk[y][x] = item;
-        return old;
+        return this.getByGlobal(coord).putByCoord(coord, item);
     }
 
-    putByCoord(coord: Coord, chunk: T[][]) {
+    putByCoord(coord: Coord, chunk: Chunk<T>) {
         return this.cache.put(this.createKey(coord.x, coord.y), chunk);
     }
 

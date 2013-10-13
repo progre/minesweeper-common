@@ -13,7 +13,7 @@ class Chunk<T> {
     }
 
     constructor(
-        private items: T[][]) {
+        public items: T[][]) {
     }
 
     /** グローバル座標で要求しても上位ビットは無視する */
@@ -40,8 +40,8 @@ class Chunk<T> {
         return old;
     }
 
-    map<U>(callbackfn: (value: T, coord?: Coord) => U) {
-        return this.items.map((line, y) => line.map(
-            (tile, x) => callbackfn(tile, Coord.fromNumber(x, y))));
+    map<U>(callbackfn: (value: T, coord?: Coord) => U): Chunk<U> {
+        return new Chunk(<U[][]>this.items.map((line, y) => <U[]>line.map(
+            (tile, x) => callbackfn(tile, Coord.fromNumber(x, y)))));
     }
 }

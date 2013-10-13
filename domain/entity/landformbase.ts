@@ -1,20 +1,18 @@
 ﻿import BigInteger = require('jsbn');
 import ee2 = require('eventemitter2');
 import Enumerable = require('./../../../lib/linq');
+import enums = require('./../valueobject/enums');
 import Coord = require('./../valueobject/coord');
-import vp = require('./../valueobject/viewpoint');
 import ChunkCache = require('./chunkcache');
 import ChunkNotFoundError = require('./chunknotfounderror');
 import Chunk = require('./chunk');
 
-export = MapBase;
-class MapBase extends ee2.EventEmitter2 {
-    private unknownPlace = createUnknownPlace();
-
+export = LandformBase;
+class LandformBase<T> extends ee2.EventEmitter2 {
     // 地雷（地形）Map 普通の爆弾、☢、Bakuhigashi等
     // 解放状況(close, flag, open)
     /** @protected */
-    viewPointChunks = new ChunkCache<vp.ViewPoint>();
+    viewPointChunks = new ChunkCache<T>();
 
     getViewPoint(coord: Coord) {
         try {
@@ -24,7 +22,7 @@ class MapBase extends ee2.EventEmitter2 {
                 throw error;
             var e: ChunkNotFoundError = error;
             this.requestViewPointChunk(e.coord);
-            return vp.ViewPoint.Unknown;
+            return null;
         }
     }
 
@@ -44,13 +42,13 @@ class MapBase extends ee2.EventEmitter2 {
         return this.viewPointChunks.getByGlobal(coord);
     }
 
-    putViewPoint(coord: Coord, viewPoint: vp.ViewPoint) {
+    putViewPoint(coord: Coord, viewPoint: T) {
         var updated = this.viewPointChunks.putShred(coord, viewPoint);
         super.emit('view_point_updated', viewPoint);
         return updated;
     }
 
-    putViewPointChunk(coord: Coord, chunk: Chunk<vp.ViewPoint>) {
+    putViewPointChunk(coord: Coord, chunk: Chunk<T>) {
         var updated = this.viewPointChunks.putByCoord(coord, chunk);
         super.emit('chunk_updated', coord);
         return updated;
@@ -63,12 +61,4 @@ class MapBase extends ee2.EventEmitter2 {
     /** @protected */
     requestViewPointChunk(coord: Coord): void {
     }
-}
-
-function createUnknownPlace(): vp.ViewPoint[][] {
-    return Enumerable.generate(() =>
-        Enumerable.generate(() =>
-            new vp.ViewPoint(vp.Landform.UNKNOWN, vp.Status.UNKNOWN),
-            16).toArray(),
-        16).toArray();
 }

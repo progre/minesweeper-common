@@ -2,7 +2,7 @@ import enums = require('./enums');
 
 export = Tile;
 class Tile {
-    static Unknown = new Tile(
+    static UNKNOWN = new Tile(
         enums.Landform.UNKNOWN,
         enums.Status.UNKNOWN,
         enums.Layer.UNKNOWN);

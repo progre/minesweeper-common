@@ -6,7 +6,13 @@ export enum Landform {
 
 export enum Status {
     CLOSE,
-    FLAG,
     OPEN,
+    UNKNOWN
+}
+
+export enum Layer {
+    NONE,
+    FLAG,
+    QUESTION,
     UNKNOWN
 }

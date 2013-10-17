@@ -12,4 +12,9 @@ class Tile {
         public status: enums.Status,
         public layer: enums.Layer) {
     }
+
+    isMovable() {
+        return this.status === enums.Status.OPEN
+            && this.landform === enums.Landform.NONE;
+    }
 }

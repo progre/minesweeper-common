@@ -9,7 +9,7 @@ class PathFinder {
         private field: { isMovable: (coord: Coord) => boolean }) {
     }
 
-    find(from: Coord, to: Coord): Coord[] {
+    find(from: Coord, to: Coord) {
         var openList = new OpenList(new Node(from, null, 0, 0));
         var closeList: Node[] = [];
         while (!openList.empty()) {
@@ -33,12 +33,12 @@ class PathFinder {
                     distance));
             });
         }
-        return [];
+        return <Coord[]>[];
     }
 }
 
 function createPath(closeList: Node[], lastNode: Node) {
-    var path = [];
+    var path: Coord[] = [];
     var node = lastNode;
     for (; ;) {
         if (!node.hasParent())

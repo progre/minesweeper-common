@@ -16,3 +16,7 @@ export enum Layer {
     QUESTION,
     UNKNOWN
 }
+
+export enum Intent {
+    MOVING, DIGGING, FLAG, QUESTION, REMOVE_QUESTION
+}

@@ -5,9 +5,11 @@ import Coord = require('./../valueobject/coord');
 import ChunkCache = require('./chunkcache');
 import ChunkNotFoundError = require('./chunknotfounderror');
 import Chunk = require('./chunk');
+import PathFinder = require('./pathfinder');
 
 export = LandformBase;
 class LandformBase extends ee2.EventEmitter2 {
+    pathFinder = new PathFinder(this);
     // 地雷（地形）Map 普通の爆弾、☢、Bakuhigashi等
     // 解放状況(close, flag, open)
     /** @protected */
@@ -60,15 +62,22 @@ class LandformBase extends ee2.EventEmitter2 {
         return true;
     }
 
+    setLayer(coord: Coord, layer: enums.Layer) {
+        var tile = this.getTile(coord);
+        tile.layer = layer;
+    }
+
     getNumber(coord: Coord) {
     }
 
     /** @abstract */
-    isMovable(coord: Coord) {
+    isMovable(coord: Coord): boolean {
+        throw new Error('Not implemented.');
     }
 
     /** @abstract */
     /** @protected */
     requestTileChunk(coord: Coord): void {
+        throw new Error('Not implemented.');
     }
 }

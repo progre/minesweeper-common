@@ -78,9 +78,8 @@ class LandformBase extends ee2.EventEmitter2 {
     getNumber(coord: Coord) {
     }
 
-    /** @abstract */
-    isMovable(coord: Coord): boolean {
-        throw new Error('Not implemented.');
+    isMovable(coord: Coord) {
+        return this.getTile(coord).isMovable();
     }
 
     /** @abstract */

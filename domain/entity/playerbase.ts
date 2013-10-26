@@ -22,11 +22,12 @@ class PlayerBase extends ee2.EventEmitter2 {
     /** @protected */
     beginMove(intent: enums.Intent, to: Coord) {
         if (this.field == null)
-            return;
+            return false;
         if (isNaN(this.coord.distance(to))) // —]‚è‚É‚à‰“‚¢‚Ì‚Í•s‰Â
-            return;
+            return false;
         this.path = this.field.pathFinder.find(this.coord, to);
         this.delayMove(intent);
+        return true;
     }
 
     private delayMove(intent: enums.Intent) {

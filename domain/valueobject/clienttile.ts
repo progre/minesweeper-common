@@ -9,6 +9,10 @@ class ClientTile extends Tile {
         enums.Layer.UNKNOWN,
         -1);
 
+    static createInstance(obj: ClientTile) {
+        return new ClientTile(obj.landform, obj.status, obj.layer, obj.mines);
+    }
+
     constructor(
         landform: enums.Landform,
         status: enums.Status,

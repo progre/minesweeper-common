@@ -5,8 +5,11 @@ import LandformBase = require('./landformbase');
 
 export = PlayerBase;
 class PlayerBase extends ee2.EventEmitter2 {
+    /** @protected */
     field: LandformBase;
+    /** @protected */
     movingTimeoutId = null;
+    /** @protected */
     path: Coord[];
 
     constructor(
@@ -16,7 +19,17 @@ class PlayerBase extends ee2.EventEmitter2 {
         super();
     }
 
-    delayMove(intent: enums.Intent) {
+    /** @protected */
+    beginMove(intent: enums.Intent, to: Coord) {
+        if (this.field == null)
+            return;
+        if (isNaN(this.coord.distance(to))) // 余りにも遠いのは不可
+            return;
+        this.path = this.field.pathFinder.find(this.coord, to);
+        this.delayMove(intent);
+    }
+
+    private delayMove(intent: enums.Intent) {
         if (this.movingTimeoutId != null) // タイムアウトが仕込まれている場合は中断
             return;
         if (this.path.length <= 0)

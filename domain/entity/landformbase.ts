@@ -65,6 +65,7 @@ class LandformBase extends ee2.EventEmitter2 {
     setLayer(coord: Coord, layer: enums.Layer) {
         var tile = this.getTile(coord);
         tile.layer = layer;
+        return tile;
     }
 
     dig(coord: Coord) {
@@ -73,6 +74,7 @@ class LandformBase extends ee2.EventEmitter2 {
             || tile.layer !== enums.Layer.NONE)
             return;
         tile.status = enums.Status.OPEN;
+        return tile;
     }
 
     getNumber(coord: Coord) {

@@ -53,10 +53,21 @@ class LandformBase extends ee2.EventEmitter2 {
         return updated;
     }
 
+    move(obj: { coord: Coord }, to: Coord) {
+        if (!this.isMovable(to))
+            return false;
+        obj.coord = to;
+        return true;
+    }
+
     getNumber(coord: Coord) {
     }
 
-    /** スーパークラスで実装必須 */
+    /** @abstract */
+    isMovable(coord: Coord) {
+    }
+
+    /** @abstract */
     /** @protected */
     requestTileChunk(coord: Coord): void {
     }

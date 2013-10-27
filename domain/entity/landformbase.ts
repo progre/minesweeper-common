@@ -81,7 +81,8 @@ class LandformBase extends ee2.EventEmitter2 {
     }
 
     isMovable(coord: Coord) {
-        return this.getTile(coord).isMovable();
+        var tile = this.getTile(coord);
+        return tile != null && tile.isMovable();
     }
 
     /** @abstract */

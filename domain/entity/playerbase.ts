@@ -26,6 +26,8 @@ class PlayerBase extends ee2.EventEmitter2 {
         if (isNaN(this.coord.distance(to))) // —]‚è‚É‚à‰“‚¢‚Ì‚Í•s‰Â
             return false;
         this.path = this.field.pathFinder.find(this.coord, to);
+        if (this.path.length === 0) // Œo˜H‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½
+            return false;
         this.delayMove(intent);
         return true;
     }
